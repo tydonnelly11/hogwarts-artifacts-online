@@ -26,7 +26,7 @@ public class WizardController {
 
     private final WizardDtoToWizardConverter wizardDtoToWizardConverter;
 
-    @GetMapping ("/api/v1/wizards")
+    @GetMapping ("${api.endpoint.base-url}/wizards")
     public Result findAllWizards(){
         List<Wizard> foundWizards = this.wizardService.findAll();
 
@@ -36,14 +36,14 @@ public class WizardController {
         return new Result(true, StatusCode.SUCCESS, "Find All Success", wizardDtos);
     }
 
-    @GetMapping("/api/v1/wizards/{wizardId}")
+    @GetMapping("${api.endpoint.base-url}/wizards/{wizardId}")
     public Result findWizardById(@PathVariable Integer wizardId){
         Wizard foundWizard = this.wizardService.findById(wizardId);
         WizardDto wizardDto = this.wizardtoWizardDtoConverter.convert(foundWizard);
         return new Result(true,StatusCode.SUCCESS, "Find One Success", wizardDto);
     }
 
-    @PostMapping("/api/v1/wizards")
+    @PostMapping("${api.endpoint.base-url}/wizards")
     public Result addWizard(@Valid @RequestBody WizardDto wizardDto) {
         Wizard newWizard = this.wizardDtoToWizardConverter.convert(wizardDto);
         Wizard savedWizard = this.wizardService.save(newWizard);
@@ -51,7 +51,7 @@ public class WizardController {
         return new Result(true, StatusCode.SUCCESS, "Add Success", savedWizardDto);
     }
 
-    @PutMapping("/api/v1/wizards/{wizardId}")
+    @PutMapping("${api.endpoint.base-url}/wizards/{wizardId}")
     public Result updateWizard(@PathVariable Integer wizardId, @Valid @RequestBody WizardDto wizardDto){
         Wizard update = this.wizardDtoToWizardConverter.convert(wizardDto);
         Wizard updatedWizard = this.wizardService.update(wizardId, update);
@@ -59,7 +59,7 @@ public class WizardController {
         return new Result(true,StatusCode.SUCCESS,"Update Success", updatedWizardDto);
     }
 
-    @DeleteMapping("/api/v1/wizards/{wizardId}")
+    @DeleteMapping("${api.endpoint.base-url}/wizards/{wizardId}")
     public Result deleteWizard(@PathVariable Integer wizardId){
         this.wizardService.delete(wizardId);
         return new Result(true, StatusCode.SUCCESS, "Delete Success");
